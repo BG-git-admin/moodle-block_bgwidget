@@ -1,0 +1,103 @@
+#chat-widget {
+    position: relative; /* Permite que los handles se posicionen correctamente dentro del contenedor */
+	width: 100%;
+	z-index: 1;
+}
+
+#chat-messages {
+    flex: 1 0 50vh; 
+}
+
+#chat-widget .card-body {
+    display: flex; 
+    flex-direction: column;
+    padding: 0.5rem;
+}
+
+#chat-widget.expanded {
+  position: relative;
+}
+
+#bot_name {
+  flex: 1 0 0;
+}
+
+.block_bgwidget.card {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    padding: 0;
+}
+
+.ui-resizable-handle {
+    position: absolute; /* Posiciona los handles de forma absoluta */
+    width: 10px;
+    height: 10px;
+}
+
+
+.ui-resizable-e {
+    cursor: ew-resize;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.ui-resizable-w {
+    cursor: ew-resize;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.ui-resizable-n {
+    cursor: ns-resize;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.ui-resizable-s {
+    cursor: ns-resize;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.ui-resizable-ne {
+    cursor: nesw-resize;
+    top: 0;
+    right: 0;
+}
+
+.ui-resizable-se {
+    cursor: nwse-resize;
+    bottom: 0;
+    right: 0;
+}
+
+.ui-resizable-sw {
+    cursor: nesw-resize;
+    bottom: 0;
+    left: 0;
+}
+
+.ui-resizable-nw {
+    cursor: nwse-resize;
+    top: 0;
+    left: 0;
+}
+
+.span-send-holder{
+	height: calc(1.5em + 0.75rem + 2px);
+}
+.drawer.drawer-right{
+	width: 330px;
+	max-width: 330px;
+}
+.card-body.p-3:has(#chat-widget){
+	padding: 0px!important;
+}
+.block_bgwidget .block-controls{
+	margin-bottom: 5px;
+}

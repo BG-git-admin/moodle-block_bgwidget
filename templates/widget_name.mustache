@@ -1,0 +1,60 @@
+{{!
+    @template block_bgwidget/widget_name
+    Template for the chat widget of the block_bgwidget plugin.
+}}
+
+<link href="/blocks/bgwidget/styles.css" rel="stylesheet">
+
+<div id="chat-widget" 
+     class="card" 
+     data-bot_id="{{bot_id}}" 
+     data-env="{{env}}" 
+     data-user_name="{{user_name}}" 
+     data-bot_name="{{bot_name}}" 
+     data-api_base_url="{{api_base_url}}">
+    <div class="card-header d-flex justify-content-center align-items-center">
+        <span id="bot_name">{{bot_name}}</span>
+        <button id="chat-reset" class="btn btn-link">
+            <i class="fa fa-refresh" aria-hidden="true"></i>
+        </button>
+        <button id="chat-move-toggle" class="btn btn-link">
+            <i class="fa fa-expand" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div class="card-body">
+        <div id="chat-messages" class="mb-3" style="height: 30vh; overflow-y: scroll; padding-right: 10px;"">
+            <div id="loading-icon" class="text-center" style="display: none;">
+                <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+            </div>
+            {{#messages}}
+            <div class="message p-2 mb-2 rounded {{#is_user}}bg-primary text-white{{/is_user}} {{^is_user}}bg-light text-dark{{/is_user}}">
+                <strong>{{#is_user}}{{user_name}}{{/is_user}}{{^is_user}}{{bot_name}}{{/is_user}}:</strong> {{content}}
+            </div>
+            {{/messages}}
+        </div>
+        <div class="input-group justify-content-center align-items-center">
+            <input type="text" id="chat-input" class="form-control" placeholder="{{#str}} placeholdertext, block_bgwidget {{/str}}">
+            <span class="input-group-btn d-flex span-send-holder justify-content-center align-items-center">
+                <button id="chat-send" class="btn btn-link" type="button">
+                    <!--<i class="fa fa-paper-plane" aria-hidden="true"></i>-->
+					<svg width="32px" height="32px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    						<g id="web-app" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+								<g id="paper-plane" fill="currentColor" fill-rule="nonzero">
+									<path d="M13.7612096,12.010246 L3.00114069,10.9260828 L3.00000002,4.07390726 C2.9999013,3.48090338 3.4805459,3.00009873 4.07354978,3.00000001 C4.24030125,2.99997226 4.40476746,3.03878301 4.55391451,3.11335654 L20.4062223,11.0395104 C20.9366211,11.3047098 21.1516077,11.9496696 20.8864083,12.4800684 C20.78252,12.6878448 20.6140494,12.8563254 20.4062791,12.960226 L4.55631145,20.8863826 C4.02592835,21.1516134 3.38095585,20.936665 3.11572505,20.4062819 C3.04118163,20.2572172 3.00236221,20.092846 3.0023401,19.9261816 L3.00143069,13.0735399 L13.7612096,12.010246 Z" id="Shape"></path>
+								</g>
+							</g>
+					</svg>
+                </button>
+            </span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Pasar las variables de configuración desde PHP a JavaScript
+    var bot_id = "{{bot_id}}";
+    var env = "{{env}}";
+    var user_name = "{{user_name}}";
+    var bot_name = "{{bot_name}}";
+    var api_base_url = "{{api_base_url}}";
+</script>
