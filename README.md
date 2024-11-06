@@ -1,44 +1,33 @@
-# BG Widget #
+# BG Widget
 
-TODO Describe the plugin shortly here.
+BG Widget is a Moodle plugin that allows users to communicate with BotGenes bots directly from a block on their Moodle site. This plugin is ideal for educational institutions and organizations looking to integrate chatbot capabilities into their learning platform.
 
-TODO Provide more detailed description here.
+## Description
 
-## Installing via uploaded ZIP file ##
+The BG Widget plugin seamlessly integrates into Moodle and provides an interactive chat interface that allows users to send messages and receive responses from BotGenes bots. The bots can assist users with frequently asked questions, provide technical or educational support, and much more.
 
-1. Log in to your Moodle site as an admin and go to _Site administration >
-   Plugins > Install plugins_.
-2. Upload the ZIP file with the plugin code. You should only be prompted to add
-   extra details if your plugin type is not automatically detected.
-3. Check the plugin validation report and finish the installation.
+### Subscription Requirements
 
-## Installing manually ##
+To use the BG Widget, an active subscription with BotGenes is required. This subscription provides access to the chatbot services and the API necessary for communication between Moodle and the bots. For more information about subscriptions, please visit [BotGenes](https://www.botgenes.com).
 
-The plugin can be also installed by putting the contents of this directory to
+## Installation
+
+### Installation via ZIP file
+
+1. Log in to your Moodle site as an admin and go to _Site administration > Plugins > Install plugins_.
+2. Upload the ZIP file with the plugin code. You will only be prompted to add additional details if the plugin type is not automatically detected.
+3. Review the plugin validation report and complete the installation.
+
+### Manual Installation
+
+The plugin can also be installed by placing the contents of this directory in:
 
     {your/moodle/dirroot}/blocks/bgwidget
 
-Afterwards, log in to your Moodle site as an admin and go to _Site administration >
-Notifications_ to complete the installation.
+Then log in to your Moodle site as an admin and go to _Site administration > Notifications_ to complete the installation.
 
-Alternatively, you can run
+Alternatively, you can run:
 
     $ php admin/cli/upgrade.php
 
 to complete the installation from the command line.
-
-## License ##
-
-2024 Franco Muzzio <franco.muzzio@botgenes.com>
-
-This program is free software: you can redistribute it and/or modify it under
-the terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY
-WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
-PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License along with
-this program.  If not, see <https://www.gnu.org/licenses/>.

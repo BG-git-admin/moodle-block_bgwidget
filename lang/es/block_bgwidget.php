@@ -1,26 +1,26 @@
 <?php
-// Este archivo es parte de Moodle - https://moodle.org/
+// This file is part of Moodle - https://moodle.org/
 //
-// Moodle es software libre: puedes redistribuirlo y/o modificarlo
-// bajo los términos de la Licencia Pública General de GNU, publicada por
-// la Free Software Foundation, ya sea la versión 3 de la licencia o
-// (a tu elección) cualquier versión posterior.
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
 //
-// Moodle se distribuye con la esperanza de que sea útil,
-// pero SIN NINGUNA GARANTÍA; incluso sin la garantía implícita de
-// COMERCIABILIDAD o APTITUD PARA UN PROPÓSITO PARTICULAR. Consulta la
-// Licencia Pública General de GNU para más detalles.
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
 //
-// Deberías haber recibido una copia de la Licencia Pública General de GNU
-// junto con Moodle. Si no, visita <https://www.gnu.org/licenses/>.
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Las cadenas de texto del plugin se definen aquí.
+ * Plugin strings are defined here.
  *
  * @package     block_bgwidget
  * @category    string
  * @copyright   2024 Franco Muzzio <franco.muzzio@botgenes.com>
- * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 o posterior
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
