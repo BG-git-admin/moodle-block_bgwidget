@@ -15,9 +15,10 @@
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
 /**
- * Block bgwidget is defined here.
+ * Description of what this file does.
  *
  * @package     block_bgwidget
+ * @category    block
  * @copyright   2024 Franco Muzzio <franco.muzzio@botgenes.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

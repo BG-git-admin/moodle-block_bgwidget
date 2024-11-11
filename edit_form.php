@@ -14,6 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 
+/**
+ * Description of what this file does.
+ *
+ * @package     block_bgwidget
+ * @category    admin
+ * @copyright   2024 Franco Muzzio <franco.muzzio@botgenes.com>
+ * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
 require_once($CFG->dirroot.'/blocks/edit_form.php');
 
 class block_bgwidget_edit_form extends block_edit_form {
