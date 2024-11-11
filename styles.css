@@ -1,101 +1,100 @@
-#chat-widget {
+.block_bgwidget #chat-widget {
     position: relative; /* Permite que los handles se posicionen correctamente dentro del contenedor */
 	width: 100%;
 	z-index: 1;
 }
 
-#chat-messages {
+.block_bgwidget #chat-messages {
     flex: 1 0 50vh; 
 }
 
-#chat-widget .card-body {
+.block_bgwidget .card-body {
     display: flex; 
     flex-direction: column;
     padding: 0.5rem;
 }
 
-#chat-widget.expanded {
+.block_bgwidget.expanded {
   position: relative;
 }
 
-#bot_name {
+.block_bgwidget #bot_name {
   flex: 1 0 0;
 }
 
-.block_bgwidget.card {
+.block_bgwidget .card {
     border: none;
     box-shadow: none;
     background: transparent;
     padding: 0;
 }
 
-.ui-resizable-handle {
+.block_bgwidget .ui-resizable-handle {
     position: absolute; /* Posiciona los handles de forma absoluta */
     width: 10px;
     height: 10px;
 }
 
-
-.ui-resizable-e {
+.block_bgwidget .ui-resizable-e {
     cursor: ew-resize;
     right: 0;
     top: 50%;
     transform: translateY(-50%);
 }
 
-.ui-resizable-w {
+.block_bgwidget .ui-resizable-w {
     cursor: ew-resize;
     left: 0;
     top: 50%;
     transform: translateY(-50%);
 }
 
-.ui-resizable-n {
+.block_bgwidget .ui-resizable-n {
     cursor: ns-resize;
     top: 0;
     left: 50%;
     transform: translateX(-50%);
 }
 
-.ui-resizable-s {
+.block_bgwidget .ui-resizable-s {
     cursor: ns-resize;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
 }
 
-.ui-resizable-ne {
+.block_bgwidget .ui-resizable-ne {
     cursor: nesw-resize;
     top: 0;
     right: 0;
 }
 
-.ui-resizable-se {
+.block_bgwidget .ui-resizable-se {
     cursor: nwse-resize;
     bottom: 0;
     right: 0;
 }
 
-.ui-resizable-sw {
+.block_bgwidget .ui-resizable-sw {
     cursor: nesw-resize;
     bottom: 0;
     left: 0;
 }
 
-.ui-resizable-nw {
+.block_bgwidget .ui-resizable-nw {
     cursor: nwse-resize;
     top: 0;
     left: 0;
 }
 
-.span-send-holder{
+.block_bgwidget .span-send-holder{
 	height: calc(1.5em + 0.75rem + 2px);
 }
-.drawer.drawer-right{
+.block_bgwidget .drawer.drawer-right{
 	width: 330px;
 	max-width: 330px;
 }
-.card-body.p-3:has(#chat-widget){
+.block_bgwidget .card-body.p-3:has(#chat-widget){
 	padding: 0px!important;
 }
 .block_bgwidget .block-controls{
