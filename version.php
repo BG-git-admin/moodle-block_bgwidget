@@ -27,6 +27,6 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_bgwidget'; // Full name of the plugin (used for diagnostics).
 $plugin->version = 2024111200;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->requires = 2023110100;        // Requires this Moodle version (4.0).
+$plugin->requires = 2022041900;        // Requires this Moodle version (4.0).
 $plugin->maturity = MATURITY_STABLE;   // This is considered as stable version.
 $plugin->release = 'v1.3';
