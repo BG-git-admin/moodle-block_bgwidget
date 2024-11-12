@@ -2,6 +2,8 @@
     position: relative; /* Permite que los handles se posicionen correctamente dentro del contenedor */
 	width: 100%;
 	z-index: 1;
+    background-color: white;
+    border: 0.1px solid gray; /* Agrega un borde negro fino */
 }
 
 .block_bgwidget #chat-messages {
@@ -11,7 +13,6 @@
 .block_bgwidget .card-body {
     display: flex; 
     flex-direction: column;
-    padding: 0.5rem;
 }
 
 .block_bgwidget.expanded {
@@ -98,5 +99,5 @@
 	padding: 0px!important;
 }
 .block_bgwidget .block-controls{
-	margin-bottom: 5px;
+	position: absolute;
 }
