@@ -29,4 +29,4 @@ $plugin->component = 'block_bgwidget'; // Full name of the plugin (used for diag
 $plugin->version = 2024111200;        // The current plugin version (Date: YYYYMMDDXX).
 $plugin->requires = 2023110100;        // Requires this Moodle version (4.0).
 $plugin->maturity = MATURITY_STABLE;   // This is considered as stable version.
-$plugin->release = 'v1.0';
+$plugin->release = 'v1.3';
