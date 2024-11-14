@@ -27,6 +27,7 @@ class block_bgwidget extends block_base {
     const BOT_ID_DEFAULT = 'BG0003';
     const BOT_NAME_DEFAULT = 'ChatBot';
     const ENV_DEFAULT = 'test';
+    const API_TOKEN_DEFAULT = '';
     const API_BASE_URL_DEFAULT = 'http://192.168.1.183';
     /**
      * Initializes class member variables.
@@ -46,17 +47,18 @@ class block_bgwidget extends block_base {
             return $this->content;
         }
 
-        // Obtener variables de configuración y cargar scripts
+        // Get configuration variables and load scripts
         $this->load_block_scripts();
         $bot_id = $this->get_bot_id();
+        $api_token = $this->get_api_token();
         $env = $this->get_env();
         $bot_name = $this->get_bot_name();
         $api_base_url = $this->get_api_base_url();
         $username = $USER->firstname;
 
-        // Generar contenido del bloque
+        // Generate block content
         $this->content = new stdClass();
-        $this->content->text = $this->generate_block_content($bot_id, $bot_name, $env, $username, $api_base_url);
+        $this->content->text = $this->generate_block_content($bot_id, $bot_name, $env, $api_token, $username, $api_base_url);
 
         return $this->content;
     }
@@ -90,19 +92,19 @@ class block_bgwidget extends block_base {
         );
     }
 
-    // Habilitar la configuración del bloque
+    // Enable block configuration
     public function instance_allow_config() {
         return true;
     }
 
-    // Guardar la configuración del bloque
+    // Save block configuration
     public function instance_config_save($data, $nolongerused = false) {
         $data->title = $this->get_string_or_default($data->title, 'pluginname');
         return parent::instance_config_save($data, $nolongerused);
     }
 
     /**
-     * Cargar los scripts necesarios para el bloque.
+     * Load necessary scripts for the block.
      */
     private function load_block_scripts() {
         global $PAGE;
@@ -115,78 +117,92 @@ class block_bgwidget extends block_base {
     }
 
     /**
-     * Obtener el bot_id de la configuración del bloque.
+     * Get the bot_id from the block configuration.
      *
-     * @return string El bot_id configurado o el valor por defecto.
+     * @return string The configured bot_id or the default value.
      */
     private function get_bot_id() {
         return isset($this->config->bot_id) ? $this->config->bot_id : self::BOT_ID_DEFAULT;
     }
 
     /**
-     * Obtener el entorno (env) de la configuración del bloque.
+     * Get the environment (env) from the block configuration.
      *
-     * @return string El entorno configurado o el valor por defecto.
+     * @return string The configured environment or the default value.
      */
     private function get_env() {
         return isset($this->config->env) ? $this->config->env : self::ENV_DEFAULT;
     }
 
     /**
-     * Obtener el nombre del bot de la configuración del bloque.
+     * Get the api_token from the block configuration.
      *
-     * @return string El entorno configurado o el valor por defecto.
+     * @return string The configured api_token or the default value.
+     */
+    private function get_api_token() {
+        return isset($this->config->api_token) ? $this->config->api_token : self::API_TOKEN_DEFAULT;
+    }
+
+    /**
+     * Get the bot name from the block configuration.
+     *
+     * @return string The configured bot name or the default value.
      */
     private function get_bot_name() {
         return isset($this->config->bot_name) ? $this->config->bot_name : self::BOT_NAME_DEFAULT;
     }
 
     /**
-     * Obtener el nombre del bot de la configuración del bloque.
+     * Get the API base URL from the block configuration.
      *
-     * @return string El entorno configurado o el valor por defecto.
+     * @return string The configured API base URL or the default value.
      */
     private function get_api_base_url() {
         return isset($this->config->api_base_url) ? $this->config->api_base_url : self::API_BASE_URL_DEFAULT;
     }
 
     /**
-     * Generar el contenido HTML del bloque.
+     * Generate the HTML content of the block.
      *
      * @param string $bot_id
+     * @param string $bot_name
      * @param string $env
-     * @return string El HTML generado usando la plantilla Mustache.
+     * @param string $api_token
+     * @param string $username
+     * @param string $api_base_url
+     * @return string The HTML generated using the Mustache template.
      */
-    private function generate_block_content($bot_id, $bot_name, $env, $username, $api_base_url) {
+    private function generate_block_content($bot_id, $bot_name, $env, $api_token, $username, $api_base_url) {
         global $OUTPUT;
-        // Contexto que pasará los mensajes a la plantilla Mustache.
+        // Context that will pass messages to the Mustache template.
         $templatecontext = [
             'bot_id' => $bot_id,
             'env' => $env,
+            'api_token' => $api_token,
             'user_name' => $username,
             'bot_name' => $bot_name,
             'api_base_url' => $api_base_url,
         ];
 
-        // Renderizar la plantilla Mustache y retornar el contenido.
+        // Render the Mustache template and return the content.
         return $OUTPUT->render_from_template('block_bgwidget/widget_name', $templatecontext);
     }
 
     /**
-     * Obtener el título configurado del bloque.
+     * Get the configured block title.
      *
-     * @return string El título configurado o el valor por defecto.
+     * @return string The configured title or the default value.
      */
     private function get_block_title() {
         return empty($this->config->title) ? get_string('pluginname', 'block_bgwidget') : $this->config->title;
     }
 
     /**
-     * Obtener una cadena o usar un valor por defecto si está vacía.
+     * Get a string or use a default value if it is empty.
      *
-     * @param string $value La cadena a evaluar.
-     * @param string $default_key La clave del valor por defecto.
-     * @return string El valor de la cadena o el valor por defecto.
+     * @param string $value The string to evaluate.
+     * @param string $default_key The key of the default value.
+     * @return string The value of the string or the default value.
      */
     private function get_string_or_default($value, $default_key) {
         return empty($value) ? get_string($default_key, 'block_bgwidget') : $value;
