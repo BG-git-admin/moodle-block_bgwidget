@@ -168,9 +168,6 @@
         channel: CHANNEL_ACRONYM,
         username: stringToHex(user_name),
       };
-      if (window.console && window.console.log) {
-        window.console.log(data);
-      }
       sendPostRequest(
         api_base_url + "/secure/api/connect",
         data,
