@@ -23,12 +23,13 @@ along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
 <link href="/blocks/bgwidget/styles.css" rel="stylesheet">
 
 <div class="block_bgwidget">
-    <div id="chat-widget" 
-        class="card" 
-        data-bot_id="{{bot_id}}" 
-        data-env="{{env}}" 
-        data-user_name="{{user_name}}" 
-        data-bot_name="{{bot_name}}" 
+    <div id="chat-widget"
+        class="card"
+        data-bot_id="{{bot_id}}"
+        data-env="{{env}}"
+        data-api_token="{{api_token}}"
+        data-user_name="{{user_name}}"
+        data-bot_name="{{bot_name}}"
         data-api_base_url="{{api_base_url}}">
         <div class="card-header d-flex justify-content-center align-items-center">
             <span id="bot_name">{{bot_name}}</span>
@@ -73,6 +74,7 @@ along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
     // Pasar las variables de configuración desde PHP a JavaScript
     var bot_id = "{{bot_id}}";
     var env = "{{env}}";
+    var api_token = "{{api_token}}";
     var user_name = "{{user_name}}";
     var bot_name = "{{bot_name}}";
     var api_base_url = "{{api_base_url}}";

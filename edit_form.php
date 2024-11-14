@@ -28,24 +28,20 @@ require_once($CFG->dirroot.'/blocks/edit_form.php');
 class block_bgwidget_edit_form extends block_edit_form {
 
     protected function specific_definition($mform) {
-        // Campo para el bot_id
         $mform->addElement('text', 'config_bot_id', get_string('bot_id', 'block_bgwidget'));
         $mform->setType('config_bot_id', PARAM_TEXT);
         $mform->setDefault('config_bot_id', 'BG0003');
 
-        // Campo para el env
-        //$mform->addElement('text', 'config_env', get_string('env', 'block_bgwidget'));
-        //$mform->setType('config_env', PARAM_TEXT);
-        //$mform->setDefault('config_env', 'test');
-
-        // Campo para el nombre del bot
         $mform->addElement('text', 'config_bot_name', get_string('bot_name', 'block_bgwidget'));
         $mform->setType('config_bot_name', PARAM_TEXT);
         $mform->setDefault('config_bot_name', 'ChatBot');
 
-        // Campo para el nombre del bot
         $mform->addElement('text', 'config_api_base_url', get_string('api_base_url', 'block_bgwidget'));
         $mform->setType('config_api_base_url', PARAM_TEXT);
         $mform->setDefault('config_api_base_url', 'http://192.168.1.183');
+
+        $mform->addElement('text', 'config_api_token', get_string('api_token', 'block_bgwidget'));
+        $mform->setType('config_api_token', PARAM_TEXT);
+        $mform->setDefault('config_api_token', '');
     }
 }

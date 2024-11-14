@@ -12,16 +12,21 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
-
 /**
  * Description of what this file does.
  *
- * @package     block_bgwidget
  * @category    module
  * @copyright   2024 Franco Muzzio <franco.muzzio@botgenes.com>
  * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+/* global module */
+
+/**
+ * Initializes the bgwidget module.
+ * @param {Object} root - The root object, typically `window` or `self`.
+ * @param {Function} factory - The factory function to create the module.
+ */
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     define(['jquery', 'jqueryui'], factory);
@@ -31,10 +36,13 @@
     root.bgwidget = factory(root.jQuery);
   }
 }(typeof self !== 'undefined' ? self : this, function ($) {
-  
+  /**
+   * Initializes the chat widget.
+   */
   function initialize() {
     var bot_id = $("#chat-widget").data("bot_id");
     var env = $("#chat-widget").data("env");
+    var api_token = $("#chat-widget").data("api_token");
     var user_name = $("#chat-widget").data("user_name");
     var bot_name = $("#chat-widget").data("bot_name");
     var api_base_url = $("#chat-widget").data("api_base_url");
@@ -59,33 +67,33 @@
     var messages = JSON.parse(sessionStorage.getItem(messagesKey)) || [];
     let isExpanded = false;
 
-    // Guardar el tamaño original del widget para restaurarlo después
+    // Save the original size of the widget to restore it later
     var originalSize = {
       width: $("#chat-widget").width(),
       height: $("#chat-widget").height(),
     };
 
-    // Obtener el tamaño guardado o usar el tamaño original
+    // Get the saved size or use the original size
     var initialWidth =
       sessionStorage.getItem("widgetWidth") || originalSize.width;
     var initialHeight =
       sessionStorage.getItem("widgetHeight") || originalSize.height;
 
-    // Hacer que el widget sea draggable cuando esté expandido
+    // Make the widget draggable when expanded
     $("#chat-move-toggle").on("click", function () {
       isExpanded = !isExpanded;
 
-      // Cambiar la clase expanded
+      // Toggle the expanded class
       $("#chat-widget").toggleClass("expanded", isExpanded);
 
       if (isExpanded) {
-        // Hacerlo draggable si está expandido
+        // Make it draggable if expanded
         $("#chat-widget").draggable({
           containment: "window",
           scroll: false,
         });
 
-        // Hacerlo resizable si está expandido
+        // Make it resizable if expanded
         $("#chat-widget").resizable({
           handles: "n, e, s, w, ne, se, sw, nw",
           stop: function (event, ui) {
@@ -120,6 +128,9 @@
     }
     setupEventListeners();
 
+    /**
+     * Loads previous messages from session storage.
+     */
     function loadPreviousMessages() {
       if (messages.length > 0) {
         messages.forEach(function (message) {
@@ -128,6 +139,9 @@
       }
     }
 
+    /**
+     * Sets up event listeners for chat interactions.
+     */
     function setupEventListeners() {
       $("#chat-send").on("click", function () {
         handleSendMessage();
@@ -144,6 +158,9 @@
       });
     }
 
+    /**
+     * Initializes the chat by connecting to the server.
+     */
     function initializeChat() {
       var data = {
         bot_id: bot_id,
@@ -151,17 +168,24 @@
         channel: CHANNEL_ACRONYM,
         username: stringToHex(user_name),
       };
-
+      if (window.console && window.console.log) {
+        window.console.log(data);
+      }
       sendPostRequest(
         api_base_url + "/secure/api/connect",
         data,
         handleChatConnectSuccess,
         function () {
           showError(CONECTION_FAILURE_MESSAGE);
-        }
+        },
+        api_token
       );
     }
 
+    /**
+     * Handles successful chat connection.
+     * @param {Object} connectResponse - The response from the server.
+     */
     function handleChatConnectSuccess(connectResponse) {
       token = connectResponse.data["token"];
       sessionStorage.setItem(tokenKey, token);
@@ -172,6 +196,9 @@
       storeMessage(bot_name, initialMessage, false);
     }
 
+    /**
+     * Handles sending a message.
+     */
     function handleSendMessage() {
       var userMessage = $("#chat-input").val().trim();
       if (userMessage === "") {
@@ -201,6 +228,9 @@
       $("#chat-input").val("");
     }
 
+    /**
+     * Resets the chat to its initial state.
+     */
     function resetChat() {
       $("#chat-messages .message").remove();
       $("#loading-icon").css("display", "block");
@@ -212,13 +242,21 @@
       initializeChat();
     }
 
-    function sendPostRequest(url, data, onSuccess, onError) {
+    /**
+     * Sends a POST request to the server.
+     * @param {string} url - The URL to send the request to.
+     * @param {Object} data - The data to send in the request.
+     * @param {Function} onSuccess - Callback for successful response.
+     * @param {Function} onError - Callback for error response.
+     * @param {string} authToken - The authentication token to use for the request.
+     */
+    function sendPostRequest(url, data, onSuccess, onError, authToken) {
       $.ajax({
         url: url,
         type: "POST",
         contentType: "application/json",
         headers: {
-          Authorization: "Bearer " + token,
+          'Authorization': authToken ? 'Bearer ' + authToken : 'Bearer ' + token
         },
         data: JSON.stringify(data),
         success: function (response) {
@@ -234,6 +272,12 @@
       });
     }
 
+    /**
+     * Adds a message to the chat interface.
+     * @param {string} sender - The sender of the message.
+     * @param {string} content - The content of the message.
+     * @param {boolean} isUser - Whether the message is from the user.
+     */
     function addMessage(sender, content, isUser) {
       var messageDiv = $("<div></div>")
         .addClass("message p-2 mb-2 rounded")
@@ -249,15 +293,30 @@
       $("#chat-messages").scrollTop($("#chat-messages")[0].scrollHeight);
     }
 
+    /**
+     * Stores a message in session storage.
+     * @param {string} sender - The sender of the message.
+     * @param {string} content - The content of the message.
+     * @param {boolean} isUser - Whether the message is from the user.
+     */
     function storeMessage(sender, content, isUser) {
       messages.push({ sender: sender, content: content, isUser: isUser });
       sessionStorage.setItem(messagesKey, JSON.stringify(messages));
     }
 
+    /**
+     * Displays an error message in the chat.
+     * @param {string} errorMessage - The error message to display.
+     */
     function showError(errorMessage) {
       addMessage(bot_name, errorMessage, false);
     }
 
+    /**
+     * Converts a string to its hexadecimal representation.
+     * @param {string} str - The string to convert.
+     * @returns {string} The hexadecimal representation of the string.
+     */
     function stringToHex(str) {
       if (!str) {
         return "";
