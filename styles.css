@@ -6,13 +6,21 @@
     border: 0.1px solid gray;
     min-width: 20vh;
     min-height: 45vh;
+    max-height: 50vh;
+    overflow: hidden;
 }
 
 .block_bgwidget #chat-messages {
-    flex: 1 0 50vh;
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 1rem;
 }
 
 .block_bgwidget .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
     padding: 16px;
 }
 

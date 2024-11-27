@@ -106,6 +106,7 @@
           position: "fixed",
           width: initialWidth,
           height: initialHeight,
+          maxHeight: "90vh"
         });
 
         $(this).find("i").removeClass("pinned").addClass("unpinned");
@@ -116,6 +117,7 @@
         $("#chat-widget").height(originalSize.height);
         $("#chat-widget").css({
           position: "static",
+          maxHeight: "45vh"
         });
 
         $(this).find("i").removeClass("unpinned").addClass("pinned");
@@ -332,3 +334,5 @@
     init: initialize,
   };
 }));
+
+
