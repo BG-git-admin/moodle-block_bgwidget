@@ -101,3 +101,11 @@
 .block_bgwidget .block-controls{
 	position: absolute;
 }
+
+.pinned {
+    color: rgb(15, 108, 191); /* Color para el estado fijado */
+}
+
+.unpinned {
+    color: gray; /* Color para el estado no fijado */
+}
