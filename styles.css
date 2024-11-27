@@ -1,26 +1,27 @@
 .block_bgwidget #chat-widget {
-    position: relative; /* Permite que los handles se posicionen correctamente dentro del contenedor */
-	width: 100%;
-	z-index: 1;
+    position: relative;
+    /* Permite que los handles se posicionen correctamente dentro del contenedor */
+    width: 100%;
+    z-index: 1;
     background-color: white;
-    border: 0.1px solid gray; /* Agrega un borde negro fino */
+    border: 0.1px solid gray;
+    /* Agrega un borde negro fino */
 }
 
 .block_bgwidget #chat-messages {
-    flex: 1 0 50vh; 
+    flex: 1 0 50vh;
 }
 
 .block_bgwidget .card-body {
-    display: flex; 
-    flex-direction: column;
+    padding: 16px;
 }
 
 .block_bgwidget.expanded {
-  position: relative;
+    position: relative;
 }
 
 .block_bgwidget #bot_name {
-  flex: 1 0 0;
+    flex: 1 0 0;
 }
 
 .block_bgwidget .card {
@@ -31,7 +32,8 @@
 }
 
 .block_bgwidget .ui-resizable-handle {
-    position: absolute; /* Posiciona los handles de forma absoluta */
+    position: absolute;
+    /* Posiciona los handles de forma absoluta */
     width: 10px;
     height: 10px;
 }
@@ -88,24 +90,21 @@
     left: 0;
 }
 
-.block_bgwidget .span-send-holder{
-	height: calc(1.5em + 0.75rem + 2px);
-}
-.block_bgwidget .drawer.drawer-right{
-	width: 330px;
-	max-width: 330px;
-}
-.block_bgwidget .card-body.p-3:has(#chat-widget){
-	padding: 0px!important;
-}
-.block_bgwidget .block-controls{
-	position: absolute;
+.block_bgwidget .span-send-holder {
+    height: calc(1.5em + 0.75rem + 2px);
 }
 
-.pinned {
-    color: rgb(15, 108, 191); /* Color para el estado fijado */
+.block_bgwidget .drawer.drawer-right {
+    width: 330px;
+    max-width: 330px;
 }
 
-.unpinned {
-    color: gray; /* Color para el estado no fijado */
+.block_bgwidget .pinned {
+    color: rgb(15, 108, 191);
+    /* Color para el estado fijado */
+}
+
+.block_bgwidget .unpinned {
+    color: gray;
+    /* Color para el estado no fijado */
 }
