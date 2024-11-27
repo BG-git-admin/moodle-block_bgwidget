@@ -58,3 +58,4 @@ $string['sendbuttonlabel'] = 'Send';
 $string['settingsdescription'] = 'Configure the settings for the chat plugin.';
 $string['success_connection_message'] = 'Connection established.';
 $string['usermessage'] = 'You: {$a->message}';
+$string['widget_unpinned_message'] = 'Widget unpinned, to pin it back press ';

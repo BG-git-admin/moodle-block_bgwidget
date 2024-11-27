@@ -1,19 +1,31 @@
 .block_bgwidget #chat-widget {
     position: relative;
-    /* Permite que los handles se posicionen correctamente dentro del contenedor */
     width: 100%;
     z-index: 1;
     background-color: white;
     border: 0.1px solid gray;
-    /* Agrega un borde negro fino */
+    min-width: 20vh;
+    min-height: 35vh;
+    max-height: 50vh;
+    overflow: hidden;
 }
 
 .block_bgwidget #chat-messages {
-    flex: 1 0 50vh;
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 1rem;
 }
 
 .block_bgwidget .card-body {
+    height: 100%;
     padding: 16px;
+}
+
+
+.block_bgwidget #chat-widget .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .block_bgwidget.expanded {
@@ -33,7 +45,6 @@
 
 .block_bgwidget .ui-resizable-handle {
     position: absolute;
-    /* Posiciona los handles de forma absoluta */
     width: 10px;
     height: 10px;
 }
@@ -101,10 +112,15 @@
 
 .block_bgwidget .pinned {
     color: rgb(15, 108, 191);
-    /* Color para el estado fijado */
 }
 
 .block_bgwidget .unpinned {
     color: gray;
-    /* Color para el estado no fijado */
+}
+
+.block_bgwidget .unpinned-message {
+    color: gray;
+    font-style: italic;
+    text-align: center;
+    margin-top: 10px;
 }
