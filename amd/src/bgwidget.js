@@ -87,10 +87,28 @@
       $("#chat-widget").toggleClass("expanded", isExpanded);
 
       if (isExpanded) {
+        // Restaurar posición y tamaño guardados
+        var savedPosition = JSON.parse(sessionStorage.getItem("widgetPosition"));
+        var savedWidth = sessionStorage.getItem("widgetWidth") || initialWidth;
+        var savedHeight = sessionStorage.getItem("widgetHeight") || initialHeight;
+
+        if (!savedPosition) {
+          // Calcular la posición central si no hay posición guardada
+          var windowWidth = $(window).width();
+          var windowHeight = $(window).height();
+          savedPosition = {
+            top: (windowHeight - savedHeight) / 2,
+            left: (windowWidth - savedWidth) / 2
+          };
+        }
+
         // Make it draggable if expanded
         $("#chat-widget").draggable({
           containment: "window",
           scroll: false,
+          stop: function (event, ui) {
+            sessionStorage.setItem("widgetPosition", JSON.stringify(ui.position));
+          }
         });
 
         // Make it resizable if expanded
@@ -99,24 +117,33 @@
           stop: function (event, ui) {
             sessionStorage.setItem("widgetWidth", ui.size.width);
             sessionStorage.setItem("widgetHeight", ui.size.height);
-          },
+          }
         });
 
         $("#chat-widget").css({
           position: "fixed",
-          width: initialWidth,
-          height: initialHeight,
+          width: savedWidth,
+          height: savedHeight,
+          top: savedPosition.top,
+          left: savedPosition.left,
           maxHeight: "90vh"
         });
 
         $(this).find("i").removeClass("pinned").addClass("unpinned");
       } else {
+        // Guardar el tamaño actual antes de fijar
+        var currentWidth = $("#chat-widget").width();
+        var currentHeight = $("#chat-widget").height();
+
+        sessionStorage.setItem("widgetWidth", currentWidth);
+        sessionStorage.setItem("widgetHeight", currentHeight);
+
         $("#chat-widget").draggable("destroy");
         $("#chat-widget").resizable("destroy");
-        $("#chat-widget").width(originalSize.width);
-        $("#chat-widget").height(originalSize.height);
         $("#chat-widget").css({
           position: "static",
+          width: originalSize.width,
+          height: originalSize.height,
           maxHeight: "45vh"
         });
 
