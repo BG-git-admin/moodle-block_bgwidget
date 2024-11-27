@@ -108,7 +108,7 @@
           height: initialHeight,
         });
 
-        $(this).find("i").removeClass("fa-expand").addClass("fa-compress");
+        $(this).find("i").removeClass("pinned").addClass("unpinned");
       } else {
         $("#chat-widget").draggable("destroy");
         $("#chat-widget").resizable("destroy");
@@ -118,7 +118,7 @@
           position: "static",
         });
 
-        $(this).find("i").removeClass("fa-compress").addClass("fa-expand");
+        $(this).find("i").removeClass("unpinned").addClass("pinned");
       }
     });
 
@@ -325,6 +325,7 @@
       }
       return hex;
     }
+
   }
 
   return {
