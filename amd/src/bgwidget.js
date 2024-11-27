@@ -87,6 +87,9 @@
       $("#chat-widget").toggleClass("expanded", isExpanded);
 
       if (isExpanded) {
+        // Mostrar el mensaje de desfijado
+        $("#unpinned-message").show();
+
         // Restaurar posición y tamaño guardados
         var savedPosition = JSON.parse(sessionStorage.getItem("widgetPosition"));
         var savedWidth = sessionStorage.getItem("widgetWidth") || initialWidth;
@@ -131,6 +134,9 @@
 
         $(this).find("i").removeClass("pinned").addClass("unpinned");
       } else {
+        // Ocultar el mensaje de desfijado
+        $("#unpinned-message").hide();
+
         // Guardar el tamaño actual antes de fijar
         var currentWidth = $("#chat-widget").width();
         var currentHeight = $("#chat-widget").height();

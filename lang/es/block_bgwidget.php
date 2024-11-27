@@ -58,3 +58,4 @@ $string['sendbuttonlabel'] = 'Enviar';
 $string['settingsdescription'] = 'Configura los ajustes para el plugin de chat.';
 $string['success_connection_message'] = 'Conexión establecida.';
 $string['usermessage'] = 'Tú: {$a->message}';
+$string['widget_unpinned_message'] = 'Widget desfijado, para volverlo a fijar presione ';

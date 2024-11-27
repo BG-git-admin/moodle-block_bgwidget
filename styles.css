@@ -5,7 +5,7 @@
     background-color: white;
     border: 0.1px solid gray;
     min-width: 20vh;
-    min-height: 45vh;
+    min-height: 35vh;
     max-height: 50vh;
     overflow: hidden;
 }
@@ -17,11 +17,15 @@
 }
 
 .block_bgwidget .card-body {
+    height: 100%;
+    padding: 16px;
+}
+
+
+.block_bgwidget #chat-widget .card-body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%;
-    padding: 16px;
 }
 
 .block_bgwidget.expanded {
@@ -112,4 +116,11 @@
 
 .block_bgwidget .unpinned {
     color: gray;
+}
+
+.block_bgwidget .unpinned-message {
+    color: gray;
+    font-style: italic;
+    text-align: center;
+    margin-top: 10px;
 }
