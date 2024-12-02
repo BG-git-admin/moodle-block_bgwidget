@@ -1,41 +1,4 @@
-// This file is part of Moodle - https://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
-/**
- * Description of what this file does.
- *
- * @category    module
- * @copyright   2024 Franco Muzzio <franco.muzzio@botgenes.com>
- * @license     https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
-
-/* global module */
-
-/**
- * Initializes the bgwidget module.
- * @param {Object} root - The root object, typically `window` or `self`.
- * @param {Function} factory - The factory function to create the module.
- */
-(function (root, factory) {
-  if (typeof define === 'function' && define.amd) {
-    define(['jquery', 'jqueryui'], factory);
-  } else if (typeof module === 'object' && module.exports) {
-    module.exports = factory(require('jquery'), require('jquery-ui-dist'));
-  } else {
-    root.bgwidget = factory(root.jQuery);
-  }
-}(typeof self !== 'undefined' ? self : this, function ($) {
+define(['jquery', 'jqueryui'], function($) {
   /**
    * Initializes the chat widget.
    */
@@ -87,16 +50,16 @@
       $("#chat-widget").toggleClass("expanded", isExpanded);
 
       if (isExpanded) {
-        // Mostrar el mensaje de desfijado
+        // Show the unpinned message
         $("#unpinned-message").show();
 
-        // Restaurar posición y tamaño guardados
+        // Restore saved position and size
         var savedPosition = JSON.parse(sessionStorage.getItem("widgetPosition"));
         var savedWidth = sessionStorage.getItem("widgetWidth") || initialWidth;
         var savedHeight = sessionStorage.getItem("widgetHeight") || initialHeight;
 
         if (!savedPosition) {
-          // Calcular la posición central si no hay posición guardada
+          // Calculate the central position if no saved position
           var windowWidth = $(window).width();
           var windowHeight = $(window).height();
           savedPosition = {
@@ -134,10 +97,10 @@
 
         $(this).find("i").removeClass("pinned").addClass("unpinned");
       } else {
-        // Ocultar el mensaje de desfijado
+        // Hide the unpinned message
         $("#unpinned-message").hide();
 
-        // Guardar el tamaño actual antes de fijar
+        // Save the current size before pinning
         var currentWidth = $("#chat-widget").width();
         var currentHeight = $("#chat-widget").height();
 
@@ -361,11 +324,15 @@
       return hex;
     }
 
+    $(document).ready(function() {
+        $("#element").tooltip(); // Inicializa el tooltip
+    });
+
   }
 
   return {
     init: initialize,
   };
-}));
+});
 
 

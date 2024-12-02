@@ -113,6 +113,7 @@ class block_bgwidget extends block_base {
             'block_bgwidget'
         );
         $PAGE->requires->jquery();
+        $PAGE->requires->jquery_plugin('ui');
         $PAGE->requires->js_call_amd('block_bgwidget/bgwidget', 'init');
     }
 
