@@ -1,4 +1,16 @@
-define(['jquery', 'jqueryui'], function($) {
+require.config({
+    paths: {
+        'jquery-ui': '/blocks/bgwidget/lib/jquery-ui-1.14.1.custom/jquery-ui-wrapper'
+    },
+    shim: {
+        'jquery-ui': {
+            deps: ['jquery'],
+            exports: 'jQuery.ui'
+        }
+    }
+});
+
+define('bgwidget', ['jquery', 'jquery-ui'], function($) {
   /**
    * Initializes the chat widget.
    */
