@@ -69,7 +69,7 @@ class block_bgwidget extends block_base {
      * The function is called immediately after init().
      */
     public function specialization() {
-        $this->title = $this->get_block_title();
+        $this->title = $this->get_bot_name();
     }
 
     /**
