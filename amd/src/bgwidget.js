@@ -40,7 +40,7 @@ define('bgwidget', ['jquery', 'jquery-ui'], function($) {
     var messagesKey = "chatMessages_" + bot_id;
     var token = sessionStorage.getItem(tokenKey) || "";
     var messages = JSON.parse(sessionStorage.getItem(messagesKey)) || [];
-    let isExpanded = false;
+    let isPinned = true;
 
     // Save the original size of the widget to restore it later
     var originalSize = {
@@ -54,14 +54,14 @@ define('bgwidget', ['jquery', 'jquery-ui'], function($) {
     var initialHeight =
       sessionStorage.getItem("widgetHeight") || originalSize.height;
 
-    // Make the widget draggable when expanded
+    // Make the widget draggable when unpinned
     $("#chat-move-toggle").on("click", function () {
-      isExpanded = !isExpanded;
+      isPinned = !isPinned;
 
       // Toggle the expanded class
-      $("#chat-widget").toggleClass("expanded", isExpanded);
+      $("#chat-widget").toggleClass("expanded", !isPinned);
 
-      if (isExpanded) {
+      if (!isPinned) {
         // Show the unpinned message
         $("#unpinned-message").show();
 
@@ -80,7 +80,7 @@ define('bgwidget', ['jquery', 'jquery-ui'], function($) {
           };
         }
 
-        // Make it draggable if expanded
+        // Make it draggable if unpinned
         $("#chat-widget").draggable({
           containment: "window",
           scroll: false,
@@ -89,7 +89,7 @@ define('bgwidget', ['jquery', 'jquery-ui'], function($) {
           }
         });
 
-        // Make it resizable if expanded
+        // Make it resizable if unpinned
         $("#chat-widget").resizable({
           handles: "n, e, s, w, ne, se, sw, nw",
           stop: function (event, ui) {
