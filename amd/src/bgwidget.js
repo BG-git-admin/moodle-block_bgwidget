@@ -11,52 +11,83 @@ require.config({
 });
 
 define('bgwidget', ['jquery', 'jquery-ui'], function($) {
-  // Global variables
-  var bot_id, env, api_token, user_name, bot_name, api_base_url;
-  var SUCCESS_CONECTION_MESSAGE, CONECTION_FAILURE_MESSAGE, SEND_MESSAGE_FAILURE_MESSAGE;
-  var CHANNEL_ACRONYM = "MO";
-  var tokenKey, messagesKey, token, messages;
+  // Encapsular variables globales en un objeto
+  var chatConfig = {
+    bot_id: null,
+    env: null,
+    api_token: null,
+    user_name: null,
+    bot_name: null,
+    api_base_url: null,
+    SUCCESS_CONECTION_MESSAGE: null,
+    CONECTION_FAILURE_MESSAGE: null,
+    SEND_MESSAGE_FAILURE_MESSAGE: null,
+    CHANNEL_ACRONYM: "MO",
+    tokenKey: null,
+    messagesKey: null,
+    token: "",
+    messages: [],
+    isPinned: true
+  };
 
   /**
-   * Initializes the chat widget.
+   * Inicializa el widget de chat.
    */
   function initialize() {
-    bot_id = $("#chat-widget").data("bot_id");
-    env = $("#chat-widget").data("env");
-    api_token = $("#chat-widget").data("api_token");
-    user_name = $("#chat-widget").data("user_name");
-    bot_name = $("#chat-widget").data("bot_name");
-    api_base_url = $("#chat-widget").data("api_base_url");
+    setChatConfig();
+    setMessages();
+    setupWidget();
+    loadPreviousMessages();
+    if (!chatConfig.token) {
+      initializeChat();
+    }
+    setupEventListeners();
+  }
 
-    SUCCESS_CONECTION_MESSAGE = M.util.get_string(
+  /**
+   * Configura las variables del chat.
+   */
+  function setChatConfig() {
+    chatConfig.bot_id = $("#chat-widget").data("bot_id");
+    chatConfig.env = $("#chat-widget").data("env");
+    chatConfig.api_token = $("#chat-widget").data("api_token");
+    chatConfig.user_name = $("#chat-widget").data("user_name");
+    chatConfig.bot_name = $("#chat-widget").data("bot_name");
+    chatConfig.api_base_url = $("#chat-widget").data("api_base_url");
+
+    chatConfig.SUCCESS_CONECTION_MESSAGE = M.util.get_string(
       "success_connection_message",
       "block_bgwidget"
     );
-    CONECTION_FAILURE_MESSAGE = M.util.get_string(
+    chatConfig.CONECTION_FAILURE_MESSAGE = M.util.get_string(
       "connection_failure_message",
       "block_bgwidget"
     );
-    SEND_MESSAGE_FAILURE_MESSAGE = M.util.get_string(
+    chatConfig.SEND_MESSAGE_FAILURE_MESSAGE = M.util.get_string(
       "send_message_failure_message",
       "block_bgwidget"
     );
 
-    tokenKey = "chatToken_" + bot_id;
-    messagesKey = "chatMessages_" + bot_id;
-    token = sessionStorage.getItem(tokenKey) || "";
-    messages = JSON.parse(sessionStorage.getItem(messagesKey)) || [];
-    let isPinned = true;
+    chatConfig.tokenKey = "chatToken_" + chatConfig.bot_id;
+    chatConfig.messagesKey = "chatMessages_" + chatConfig.bot_id;
+  }
 
+  /**
+   * Configura los mensajes del chat.
+   */
+  function setMessages() {
+    chatConfig.token = sessionStorage.getItem(chatConfig.tokenKey) || "";
+    chatConfig.messages = JSON.parse(sessionStorage.getItem(chatConfig.messagesKey)) || [];
+  }
+
+  /**
+   * Configura el widget de chat.
+   */
+  function setupWidget() {
     var originalSize = getOriginalSize();
     var initialWidth = getInitialWidth(originalSize);
     var initialHeight = getInitialHeight(originalSize);
-
-    setupWidgetToggle(isPinned, originalSize, initialWidth, initialHeight);
-    loadPreviousMessages();
-    if (!token) {
-      initializeChat();
-    }
-    setupEventListeners();
+    setupWidgetToggle(originalSize, initialWidth, initialHeight);
   }
 
   /**
@@ -90,17 +121,16 @@ define('bgwidget', ['jquery', 'jquery-ui'], function($) {
 
   /**
    * Sets up the toggle functionality for the chat widget.
-   * @param {boolean} isPinned - Indicates if the widget is pinned.
    * @param {Object} originalSize - The original size of the widget.
    * @param {number} initialWidth - The initial width of the widget.
    * @param {number} initialHeight - The initial height of the widget.
    */
-  function setupWidgetToggle(isPinned, originalSize, initialWidth, initialHeight) {
+  function setupWidgetToggle(originalSize, initialWidth, initialHeight) {
     $("#chat-move-toggle").on("click", function () {
-      isPinned = !isPinned;
-      $("#chat-widget").toggleClass("expanded", !isPinned);
+      chatConfig.isPinned = !chatConfig.isPinned;
+      $("#chat-widget").toggleClass("expanded", !chatConfig.isPinned);
 
-      if (!isPinned) {
+      if (!chatConfig.isPinned) {
         handleUnpin(initialWidth, initialHeight);
       } else {
         handlePin(originalSize);
@@ -207,15 +237,15 @@ define('bgwidget', ['jquery', 'jquery-ui'], function($) {
    * Loads previous messages from session storage.
    */
   function loadPreviousMessages() {
-    if (messages.length > 0) {
-      messages.forEach(function (message) {
+    if (chatConfig.messages.length > 0) {
+      chatConfig.messages.forEach(function (message) {
         addMessage(message.sender, message.content, message.isUser);
       });
     }
   }
 
   /**
-   * Sets up event listeners for chat interactions.
+   * Sets up event listeners for the widget.
    */
   function setupEventListeners() {
     $("#chat-send").on("click", function () {
@@ -231,6 +261,14 @@ define('bgwidget', ['jquery', 'jquery-ui'], function($) {
     $("#chat-reset").on("click", function () {
       resetChat();
     });
+
+    // Detect the drawer close event specifically for the close icon
+    $('#theme_boost-drawers-blocks').on('click', '.icon.fa-xmark', function () {
+      if (!chatConfig.isPinned) {
+        handlePin(getOriginalSize());
+        chatConfig.isPinned = true;
+      }
+    });
   }
 
   /**
@@ -238,19 +276,19 @@ define('bgwidget', ['jquery', 'jquery-ui'], function($) {
    */
   function initializeChat() {
     var data = {
-      bot_id: bot_id,
-      env: env,
-      channel: CHANNEL_ACRONYM,
-      username: stringToHex(user_name),
+      bot_id: chatConfig.bot_id,
+      env: chatConfig.env,
+      channel: chatConfig.CHANNEL_ACRONYM,
+      username: stringToHex(chatConfig.user_name),
     };
     sendPostRequest(
-      api_base_url + "/secure/api/connect",
+      chatConfig.api_base_url + "/secure/api/connect",
       data,
       handleChatConnectSuccess,
       function () {
-        showError(CONECTION_FAILURE_MESSAGE);
+        showError(chatConfig.CONECTION_FAILURE_MESSAGE);
       },
-      api_token
+      chatConfig.api_token
     );
   }
 
@@ -259,13 +297,13 @@ define('bgwidget', ['jquery', 'jquery-ui'], function($) {
    * @param {Object} connectResponse - The response from the server.
    */
   function handleChatConnectSuccess(connectResponse) {
-    token = connectResponse.data["token"];
-    sessionStorage.setItem(tokenKey, token);
+    chatConfig.token = connectResponse.data["token"];
+    sessionStorage.setItem(chatConfig.tokenKey, chatConfig.token);
     var initialMessage =
-      connectResponse.data["initial_response"] || SUCCESS_CONECTION_MESSAGE;
+      connectResponse.data["initial_response"] || chatConfig.SUCCESS_CONECTION_MESSAGE;
     $("#loading-icon").css("display", "none");
-    addMessage(bot_name, initialMessage, false);
-    storeMessage(bot_name, initialMessage, false);
+    addMessage(chatConfig.bot_name, initialMessage, false);
+    storeMessage(chatConfig.bot_name, initialMessage, false);
   }
 
   /**
@@ -277,23 +315,23 @@ define('bgwidget', ['jquery', 'jquery-ui'], function($) {
       return;
     }
 
-    addMessage(user_name, userMessage, true);
-    storeMessage(user_name, userMessage, true);
+    addMessage(chatConfig.user_name, userMessage, true);
+    storeMessage(chatConfig.user_name, userMessage, true);
 
     var data = {
       user_input: userMessage,
-      env: env,
+      env: chatConfig.env,
     };
 
     sendPostRequest(
-      api_base_url + "/secure/api/message",
+      chatConfig.api_base_url + "/secure/api/message",
       data,
       function (botResponse) {
-        addMessage(bot_name, botResponse.data.text, false);
-        storeMessage(bot_name, botResponse.data.text, false);
+        addMessage(chatConfig.bot_name, botResponse.data.text, false);
+        storeMessage(chatConfig.bot_name, botResponse.data.text, false);
       },
       function () {
-        showError(SEND_MESSAGE_FAILURE_MESSAGE);
+        showError(chatConfig.SEND_MESSAGE_FAILURE_MESSAGE);
       }
     );
 
@@ -307,10 +345,10 @@ define('bgwidget', ['jquery', 'jquery-ui'], function($) {
     $("#chat-messages .message").remove();
     $("#loading-icon").css("display", "block");
 
-    sessionStorage.removeItem(tokenKey);
-    sessionStorage.removeItem(messagesKey);
-    token = "";
-    messages = [];
+    sessionStorage.removeItem(chatConfig.tokenKey);
+    sessionStorage.removeItem(chatConfig.messagesKey);
+    chatConfig.token = "";
+    chatConfig.messages = [];
     initializeChat();
   }
 
@@ -328,7 +366,7 @@ define('bgwidget', ['jquery', 'jquery-ui'], function($) {
       type: "POST",
       contentType: "application/json",
       headers: {
-        'Authorization': authToken ? 'Bearer ' + authToken : 'Bearer ' + token
+        'Authorization': authToken ? 'Bearer ' + authToken : 'Bearer ' + chatConfig.token
       },
       data: JSON.stringify(data),
       success: function (response) {
@@ -372,8 +410,8 @@ define('bgwidget', ['jquery', 'jquery-ui'], function($) {
    * @param {boolean} isUser - Whether the message is from the user.
    */
   function storeMessage(sender, content, isUser) {
-    messages.push({ sender: sender, content: content, isUser: isUser });
-    sessionStorage.setItem(messagesKey, JSON.stringify(messages));
+    chatConfig.messages.push({ sender: sender, content: content, isUser: isUser });
+    sessionStorage.setItem(chatConfig.messagesKey, JSON.stringify(chatConfig.messages));
   }
 
   /**
@@ -381,7 +419,7 @@ define('bgwidget', ['jquery', 'jquery-ui'], function($) {
    * @param {string} errorMessage - The error message to display.
    */
   function showError(errorMessage) {
-    addMessage(bot_name, errorMessage, false);
+    addMessage(chatConfig.bot_name, errorMessage, false);
   }
 
   /**
@@ -400,11 +438,6 @@ define('bgwidget', ['jquery', 'jquery-ui'], function($) {
     }
     return hex;
   }
-
-  $(document).ready(function() {
-      $("#element").tooltip(); // Initialize the tooltip
-  });
-
   return {
     init: initialize,
   };
