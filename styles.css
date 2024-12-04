@@ -1,12 +1,13 @@
 .block_bgwidget #chat-widget {
     position: relative;
-    width: 100%;
     z-index: 1;
     background-color: white;
     border: 0.1px solid gray;
     min-width: 20vh;
     min-height: 35vh;
     max-height: 50vh;
+    height: 100%;
+    width: 100%;
     overflow: hidden;
 }
 

@@ -40,68 +40,53 @@ define('bgwidget', ['jquery', 'jquery-ui', 'chatConfig'], function($, ui, chatCo
    * Sets up the chat widget, including size and toggle functionality.
    */
   function setupWidget() {
-    const originalSize = getOriginalSize();
-    const initialWidth = getInitialWidth(originalSize);
-    const initialHeight = getInitialHeight(originalSize);
-    setupWidgetToggle(originalSize, initialWidth, initialHeight);
-  }
-
-  /**
-   * Gets the original size of the chat widget.
-   * @returns {Object} An object containing the width and height of the widget.
-   */
-  function getOriginalSize() {
-    return {
-      width: $("#chat-widget").width(),
-      height: $("#chat-widget").height(),
-    };
+    const unpinnedWidth = getUnpinnedWidth();
+    const unpinnedHeight = getUnpinnedHeight();
+    setupWidgetToggle(unpinnedWidth, unpinnedHeight);
   }
 
   /**
    * Gets the initial width of the chat widget.
-   * @param {Object} originalSize - The original size of the widget.
    * @returns {number} The initial width of the widget.
    */
-  function getInitialWidth(originalSize) {
-    return sessionStorage.getItem("widgetWidth") || originalSize.width;
+  function getUnpinnedWidth() {
+    return sessionStorage.getItem("widgetWidth") || chatConfig.DEFAULT_WIDGET_DIMENSIONS.WIDTH;
   }
 
   /**
    * Gets the initial height of the chat widget.
-   * @param {Object} originalSize - The original size of the widget.
    * @returns {number} The initial height of the widget.
    */
-  function getInitialHeight(originalSize) {
-    return sessionStorage.getItem("widgetHeight") || originalSize.height;
+  function getUnpinnedHeight() {
+    return sessionStorage.getItem("widgetHeight") || chatConfig.DEFAULT_WIDGET_DIMENSIONS.HEIGHT;
   }
 
   /**
    * Sets up the toggle functionality for the chat widget.
-   * @param {Object} originalSize - The original size of the widget.
-   * @param {number} initialWidth - The initial width of the widget.
-   * @param {number} initialHeight - The initial height of the widget.
+   * @param {number} unpinnedWidth - The initial width of the widget.
+   * @param {number} unpinnedHeight - The initial height of the widget.
    */
-  function setupWidgetToggle(originalSize, initialWidth, initialHeight) {
+  function setupWidgetToggle(unpinnedWidth, unpinnedHeight) {
     $("#chat-move-toggle").on("click", function () {
       chatConfig.isPinned = !chatConfig.isPinned;
       if (!chatConfig.isPinned) {
-        handleUnpin(initialWidth, initialHeight);
+        handleUnpin(unpinnedWidth, unpinnedHeight);
       } else {
-        handlePin(originalSize);
+        handlePin();
       }
     });
   }
 
   /**
    * Handles the unpinning of the chat widget.
-   * @param {number} initialWidth - The initial width of the widget.
-   * @param {number} initialHeight - The initial height of the widget.
+   * @param {number} unpinnedWidth - The initial width of the widget.
+   * @param {number} unpinnedHeight - The initial height of the widget.
    */
-  function handleUnpin(initialWidth, initialHeight) {
+  function handleUnpin(unpinnedWidth, unpinnedHeight) {
     $("#unpinned-message").show();
     let savedPosition = JSON.parse(sessionStorage.getItem("widgetPosition"));
-    const savedWidth = sessionStorage.getItem("widgetWidth") || initialWidth;
-    const savedHeight = sessionStorage.getItem("widgetHeight") || initialHeight;
+    const savedWidth = sessionStorage.getItem("widgetWidth") || unpinnedWidth;
+    const savedHeight = sessionStorage.getItem("widgetHeight") || unpinnedHeight;
 
     if (!savedPosition) {
       savedPosition = calculateCentralPosition(savedWidth, savedHeight);
@@ -116,7 +101,7 @@ define('bgwidget', ['jquery', 'jquery-ui', 'chatConfig'], function($, ui, chatCo
       height: savedHeight,
       top: savedPosition.top,
       left: savedPosition.left,
-      maxHeight: "90vh"
+      maxHeight: chatConfig.DEFAULT_WIDGET_DIMENSIONS.MAX_HEIGHT_UNPINNED
     });
 
     $("#chat-move-toggle").find("i").removeClass("pinned").addClass("unpinned");
@@ -124,23 +109,16 @@ define('bgwidget', ['jquery', 'jquery-ui', 'chatConfig'], function($, ui, chatCo
 
   /**
    * Handles the pinning of the chat widget.
-   * @param {Object} originalSize - The original size of the widget.
    */
-  function handlePin(originalSize) {
+  function handlePin() {
     $("#unpinned-message").hide();
-    const currentWidth = $("#chat-widget").width();
-    const currentHeight = $("#chat-widget").height();
-
-    sessionStorage.setItem("widgetWidth", currentWidth);
-    sessionStorage.setItem("widgetHeight", currentHeight);
-
     $("#chat-widget").draggable("destroy");
     $("#chat-widget").resizable("destroy");
     $("#chat-widget").css({
       position: "static",
-      width: originalSize.width,
-      height: originalSize.height,
-      maxHeight: "50vh"
+      maxHeight: chatConfig.DEFAULT_WIDGET_DIMENSIONS.MAX_HEIGHT_PINNED,
+      height: "100%",
+      width: "100%",
     });
 
     $("#chat-move-toggle").find("i").removeClass("unpinned").addClass("pinned");
@@ -155,9 +133,13 @@ define('bgwidget', ['jquery', 'jquery-ui', 'chatConfig'], function($, ui, chatCo
   function calculateCentralPosition(savedWidth, savedHeight) {
     const windowWidth = $(window).width();
     const windowHeight = $(window).height();
+
+    const width = parseFloat(savedWidth) || 0;
+    const height = parseFloat(savedHeight) || 0;
+
     return {
-      top: (windowHeight - savedHeight) / 2,
-      left: (windowWidth - savedWidth) / 2
+        top: (windowHeight / 2) - (height / 2),
+        left: (windowWidth / 2) - (width / 2)
     };
   }
 
@@ -218,7 +200,7 @@ define('bgwidget', ['jquery', 'jquery-ui', 'chatConfig'], function($, ui, chatCo
 
     $('#theme_boost-drawers-blocks').on('click', '.icon.fa-xmark', function () {
       if (!chatConfig.isPinned) {
-        handlePin(getOriginalSize());
+        handlePin();
         chatConfig.isPinned = true;
       }
     });

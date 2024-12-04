@@ -13,6 +13,7 @@ define('chatConfig', ['jquery'], function($) {
     SUCCESS_CONECTION_MESSAGE: null,
     CONECTION_FAILURE_MESSAGE: null,
     SEND_MESSAGE_FAILURE_MESSAGE: null,
+    DEFAULT_WIDGET_DIMENSIONS: null,
     CHANNEL_ACRONYM: "MO",
     tokenKey: null,
     messagesKey: null,
@@ -60,6 +61,12 @@ define('chatConfig', ['jquery'], function($) {
 
     chatConfig.tokenKey = SESSION_STORAGE_KEYS.TOKEN + chatConfig.bot_id;
     chatConfig.messagesKey = SESSION_STORAGE_KEYS.MESSAGES + chatConfig.bot_id;
+    chatConfig.DEFAULT_WIDGET_DIMENSIONS = {
+      WIDTH: "40%",
+      HEIGHT: "50%",
+      MAX_HEIGHT_UNPINNED: "90vh",
+      MAX_HEIGHT_PINNED: "45vh"
+    };
   }
 
   /**
