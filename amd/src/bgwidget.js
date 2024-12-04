@@ -140,7 +140,7 @@ define('bgwidget', ['jquery', 'jquery-ui', 'chatConfig'], function($, ui, chatCo
       position: "static",
       width: originalSize.width,
       height: originalSize.height,
-      maxHeight: "45vh"
+      maxHeight: "50vh"
     });
 
     $("#chat-move-toggle").find("i").removeClass("unpinned").addClass("pinned");

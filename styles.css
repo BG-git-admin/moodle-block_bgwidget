@@ -109,7 +109,7 @@
     color: rgb(15, 108, 191);
 }
 
-.block_bgwidget #chat-move-toggle.unpinned {
+.block_bgwidget #chat-move-toggle .unpinned {
     color: gray;
 }
 
