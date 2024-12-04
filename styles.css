@@ -28,7 +28,7 @@
     justify-content: space-between;
 }
 
-.block_bgwidget.expanded {
+.block_bgwidget #chat-widget .unpinned {
     position: relative;
 }
 
@@ -110,11 +110,11 @@
     max-width: 330px;
 }
 
-.block_bgwidget .pinned {
+.block_bgwidget #chat-move-toggle .pinned {
     color: rgb(15, 108, 191);
 }
 
-.block_bgwidget .unpinned {
+.block_bgwidget #chat-move-toggle.unpinned {
     color: gray;
 }
 

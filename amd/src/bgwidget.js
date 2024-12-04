@@ -84,7 +84,7 @@ define('bgwidget', ['jquery', 'jquery-ui', 'chatConfig'], function($, ui, chatCo
   function setupWidgetToggle(originalSize, initialWidth, initialHeight) {
     $("#chat-move-toggle").on("click", function () {
       chatConfig.isPinned = !chatConfig.isPinned;
-      $("#chat-widget").toggleClass("expanded", !chatConfig.isPinned);
+      $("#chat-widget").toggleClass("unpinned", !chatConfig.isPinned);
 
       if (!chatConfig.isPinned) {
         handleUnpin(initialWidth, initialHeight);
